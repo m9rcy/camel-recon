@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beanio xmlns="http://www.beanio.org/2012/03" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+	<stream name="p-oe" format="fixedlength" minOccurs="1" maxOccurs="unbounded">
+
+		<group name="functionGroup" order="1" class="io.m9rcy.recon.model.JournalGroup" minOccurs="1" maxOccurs="1">
+
+			<record name="controlHeader" order="2" class="io.m9rcy.recon.model.ControlHeader" minOccurs="1" maxOccurs="1">
+				<field name="type" rid="true" literal="H" length="1" trim="true" />
+				<field name="fileName" length="13" trim="true" />
+				<field name="creationDate" length="8" format="yyyyMMdd"/>
+				<field name="creationTime" length="6" format="HHmmss"/>
+				<field name="settlementDate" length="8" format="yyyyMMdd"/>
+			</record>
+
+			<record name="transactions" order="3" class="io.m9rcy.recon.model.Transaction" collection="list" minOccurs="0" maxOccurs="unbounded">
+				<field name="type" rid="true" literal="D" length="1" trim="true" />
+				<field name="transactionType" length="1" required="true"/>
+				<field name="mobileNumber" length="15"/>
+				<field name="amount" length="11" type="bigdecimal"/>
+				<field name="paymentId" length="50" required="true" trim="true"/>
+				<field name="merchantId" length="32"/>
+				<field name="creationDateTime" length="14" format="yyyyMMddHHmmss"/>
+				<field name="settlementAccount" length="16" required="true"/>
+			</record>
+
+			<record name="controlTrailer" order="4" class="io.m9rcy.recon.model.ControlTrailer" minOccurs="1" maxOccurs="1">
+				<field name="type" rid="true" literal="T" length="1" trim="true" />
+				<field name="totalPurchaseCount" length="10" type="int"/>
+				<field name="totalRefundCount" length="10" type="int"/>
+				<field name="totalPurchaseAmount" length="16" type="bigdecimal"/>
+				<field name="totalRefundAmount" length="16" type="bigdecimal"/>
+			</record>
+		</group>
+	</stream>
+
+	<stream name="p-oe-ob" format="fixedlength" minOccurs="1" maxOccurs="unbounded">
+
+		<group name="functionGroup" order="1" class="io.m9rcy.recon.model.JournalGroup" minOccurs="1" maxOccurs="1">
+			<record name="controlHeader" order="2" class="io.m9rcy.recon.model.ControlHeader" minOccurs="1" maxOccurs="1">
+				<field name="type" rid="true" literal="H" length="1" trim="true" />
+				<field name="fileName" length="13" trim="true" />
+				<field name="creationDate" length="8" format="yyyyMMdd"/>
+				<field name="creationTime" length="6" format="HHmmss"/>
+				<field name="settlementDate" length="8" format="yyyyMMdd"/>
+			</record>
+
+			<record name="transactions" order="3" class="io.m9rcy.recon.model.Transaction" collection="list" minOccurs="0" maxOccurs="unbounded">
+				<field name="type" rid="true" literal="D" length="1" trim="true" />
+				<field name="transactionType" length="1" required="true"/>
+				<field name="mobileNumber" length="15"/>
+				<field name="amount" length="11" padding="0" justify="right"/>
+				<field name="paymentId" length="50" required="true"/>
+				<field name="merchantId" length="32"/>
+				<field name="creationDateTime" length="14" format="yyyyMMddHHmmss"/>
+				<field name="settlementAccount" length="16" required="true"/>
+				<field name="transactionCode" length="2"/>
+				<field name="transactionId" length="13" padding="0" justify="right"/>
+				<field name="localAccountNumber" length="16"/>
+			</record>
+
+			<record name="controlTrailer" order="4" class="io.m9rcy.recon.model.ControlTrailer" minOccurs="1" maxOccurs="1">
+				<field name="type" rid="true" literal="T" length="1" trim="true" />
+				<field name="totalPurchaseCount" length="10" padding="0" justify="right"/>
+				<field name="totalRefundCount" length="10" padding="0" justify="right"/>
+				<field name="totalPurchaseAmount" length="16" padding="0" justify="right"/>
+				<field name="totalRefundAmount" length="16" padding="0" justify="right"/>
+			</record>
+		</group>
+	</stream>
+
+</beanio>
