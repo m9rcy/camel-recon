@@ -44,10 +44,11 @@ public class ASftpConfig {
     @Bean(name = "outSFTPEndpoint")
     public SftpEndpoint outSftpEndpoint(@Qualifier("aSFTPConfiguration") SftpConfiguration aSFTPConfiguration) {
         var sftpEndpoint = new SftpEndpoint();
+        var sftpConfiguration = new SftpConfiguration();
+        sftpConfiguration.setBinary(Boolean.TRUE);
         var originalDirectory = aSFTPConfiguration.getDirectory();
         sftpEndpoint.setConfiguration(aSFTPConfiguration);
-        sftpEndpoint.setFileName(simple("/${headers.CamelFileName}"));
-        //sftpEndpoint.setFileName(constant("test.txt"));
+        sftpEndpoint.setFileName(simple("${date:now:yyyyMMddHHmmss}.${headers.CamelFileName}"));
 
         return sftpEndpoint;
     }

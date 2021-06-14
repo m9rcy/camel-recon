@@ -19,6 +19,7 @@ import org.apache.camel.spi.DataFormat;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
 import java.util.List;
 
 @Component
@@ -44,6 +45,7 @@ public class ARoute extends RouteBuilder {
                 "mappings.xml",
                 "p-oe-ob");
 
+
         from(inSFTPEndpoint)
                 .unmarshal(journalFormat)
                 .log("Formatted to ${body[0].transactions}")
@@ -60,8 +62,8 @@ public class ARoute extends RouteBuilder {
                 .log("Downloaded file .${file:name} complete.")
                 .marshal(hostFormat)
                 .log("Uploading contents ${body} / ${headers.CamelFileName}")
-
-                .to(outSftpEndpoint);
+                .to(outSftpEndpoint)
+                .log("${date:now:yyyy-MM-dd'T'HH:mm:ssZ} - SFTP upload complete. File: ${header.CamelFileName}");
 
         from("direct:enrichData")
                 .split(ExpressionBuilder.simpleExpression("${body[0].transactions}"), new ArrayListAggregationStrategy())
