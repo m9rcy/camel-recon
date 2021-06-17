@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<camel.version>3.7.2</camel.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -48,27 +49,27 @@
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-spring-boot-starter</artifactId>
-			<version>3.0.1</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-jdbc</artifactId>
-			<version>3.0.1</version>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-jdbc-starter</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-bean</artifactId>
-			<version>3.0.1</version>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-bean-starter</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-beanio</artifactId>
-			<version>3.0.1</version>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-beanio-starter</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-ftp</artifactId>
-			<version>3.0.1</version>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-ftp-starter</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.hawt</groupId>
@@ -84,9 +85,21 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-spring-junit5</artifactId>
+			<version>3.7.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 

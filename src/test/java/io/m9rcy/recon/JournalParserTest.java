@@ -8,14 +8,12 @@ import org.beanio.BeanReader;
 import org.beanio.BeanReaderException;
 import org.beanio.BeanWriter;
 import org.beanio.StreamFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class JournalParserTest extends ParserTest {
 
@@ -31,9 +28,6 @@ public class JournalParserTest extends ParserTest {
 
 	private StreamFactory factory;
 
-	@Before
-	public void setup() {
-	}
 
 	@Test
 	public void testReadFixedLengthRecordWithXmlDefinition() throws IOException {
@@ -52,9 +46,9 @@ public class JournalParserTest extends ParserTest {
 
 		for (Transaction txn: journal.getTransactions()) {
 			String txnCode = txn.getTransactionType().equals('P') ? "50" : "00";
-			//txn.setTransactionCode(txnCode);
-			//txn.setTransactionId("001");
-			//txn.setLocalAccountNumber("0212341234567123");
+			txn.setTransactionCode(txnCode);
+			txn.setTransactionId("001");
+			txn.setLocalAccountNumber("0212341234567123");
 		}
 
 		out.write(journal);
@@ -152,7 +146,7 @@ public class JournalParserTest extends ParserTest {
 		} catch (BeanReaderException ex) {
 			if (errorLineNumber > 0) {
 				// assert the line number from the exception matches expected
-				Assert.assertEquals(errorLineNumber, ex
+				Assertions.assertEquals(errorLineNumber, ex
 						.getRecordContext()
 						.getLineNumber());
 			}

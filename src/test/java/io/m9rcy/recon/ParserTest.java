@@ -20,14 +20,12 @@ import org.beanio.InvalidRecordException;
 import org.beanio.RecordContext;
 import org.beanio.StreamFactory;
 import org.beanio.internal.util.IOUtil;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class ParserTest {
 
@@ -83,17 +81,17 @@ public class ParserTest {
     protected void assertRecordError(BeanReader in, int lineNumber, String recordName, String message) {
         try {
             in.read();
-            fail("Record expected to fail validation");
+            Assertions.fail("Record expected to fail validation");
         }
         catch (InvalidRecordException ex) {
-            assertEquals(recordName, in.getRecordName());
-            assertEquals(lineNumber, in.getLineNumber());
+            Assertions.assertEquals(recordName, in.getRecordName());
+            Assertions.assertEquals(lineNumber, in.getLineNumber());
 
             RecordContext ctx = ex.getRecordContext();
-            assertEquals(recordName, ctx.getRecordName());
-            assertEquals(lineNumber, ctx.getLineNumber());
+            Assertions.assertEquals(recordName, ctx.getRecordName());
+            Assertions.assertEquals(lineNumber, ctx.getLineNumber());
             for (String s : ctx.getRecordErrors()) {
-                assertEquals(message, s);
+                Assertions.assertEquals(message, s);
             }
         }
     }
@@ -107,18 +105,18 @@ public class ParserTest {
         String fieldName, int fieldIndex, String fieldText, String message) {
         try {
             in.read();
-            fail("Record expected to fail validation");
+            Assertions.fail("Record expected to fail validation");
         }
         catch (InvalidRecordException ex) {
-            assertEquals(recordName, in.getRecordName());
-            assertEquals(lineNumber, in.getLineNumber());
+            Assertions.assertEquals(recordName, in.getRecordName());
+            Assertions.assertEquals(lineNumber, in.getLineNumber());
 
             RecordContext ctx = ex.getRecordContext();
-            assertEquals(recordName, ctx.getRecordName());
-            assertEquals(lineNumber, ctx.getLineNumber());
-            assertEquals(fieldText, ctx.getFieldText(fieldName, fieldIndex));
+            Assertions.assertEquals(recordName, ctx.getRecordName());
+            Assertions.assertEquals(lineNumber, ctx.getLineNumber());
+            Assertions.assertEquals(fieldText, ctx.getFieldText(fieldName, fieldIndex));
             for (String s : ctx.getFieldErrors(fieldName)) {
-                assertEquals(message, s);
+                Assertions.assertEquals(message, s);
             }
         }
     }

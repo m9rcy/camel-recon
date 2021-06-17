@@ -65,7 +65,7 @@ public class ARoute extends RouteBuilder {
                 })
                 .marshal(hostFormat)
                 .log("Uploading contents ${body} / ${headers.CamelFileName}")
-                .to(outSftpEndpoint)
+                .to(outSftpEndpoint).id("outSftpEndpoint")
                 .log("${date:now:yyyy-MM-dd'T'HH:mm:ssZ} - SFTP upload complete. File: ${header.CamelFileName}");
 
         from("direct:enrichData").routeId("enrichData")
