@@ -46,7 +46,11 @@ public class ARoute extends RouteBuilder {
                 "p-oe-ob");
 
 
-        from(inSFTPEndpoint)
+        from(inSFTPEndpoint).routeId("inSFTPEndpoint")
+                .log("Downloaded file .${file:name} complete.")
+                .to("direct:processFile");
+
+        from("direct:processFile").routeId("processFile")
                 .unmarshal(journalFormat)
                 .log("Formatted to ${body[0].transactions}")
                 .enrich("direct:enrichData", new AggregationStrategy() {
@@ -59,16 +63,14 @@ public class ARoute extends RouteBuilder {
                         return original;
                     }
                 })
-                .log("Downloaded file .${file:name} complete.")
                 .marshal(hostFormat)
                 .log("Uploading contents ${body} / ${headers.CamelFileName}")
                 .to(outSftpEndpoint)
                 .log("${date:now:yyyy-MM-dd'T'HH:mm:ssZ} - SFTP upload complete. File: ${header.CamelFileName}");
 
-        from("direct:enrichData")
+        from("direct:enrichData").routeId("enrichData")
                 .split(ExpressionBuilder.simpleExpression("${body[0].transactions}"), new ArrayListAggregationStrategy())
                 .process(enrichTransactionProcessor)
-                .end()
-                .log("${body}");
+                .end();
     }
 }

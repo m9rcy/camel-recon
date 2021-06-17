@@ -35,14 +35,6 @@ public class JournalParserTest extends ParserTest {
 	public void setup() {
 	}
 
-	//@Test
-	public void testCsvWithXmlDefinition() throws IOException {
-		LOGGER.info("Loading Stream Definition ...");
-		factory = newStreamFactory("mappings.xml");
-
-		test("g-csv", "sample.txt");
-	}
-
 	@Test
 	public void testReadFixedLengthRecordWithXmlDefinition() throws IOException {
 		LOGGER.info("Loading Stream Definition ...");
@@ -56,7 +48,7 @@ public class JournalParserTest extends ParserTest {
 		JournalGroup journal = (obj instanceof JournalGroup ? (JournalGroup) obj : null);
 		in.close();
 
-		BeanWriter out = factory.createWriter("p-oe-ob", new File("sample1.txt"));
+		BeanWriter out = factory.createWriter("p-oe-ob", new File("generated.txt"));
 
 		for (Transaction txn: journal.getTransactions()) {
 			String txnCode = txn.getTransactionType().equals('P') ? "50" : "00";
@@ -74,7 +66,6 @@ public class JournalParserTest extends ParserTest {
 	public void testWriteFixedLengthRecordWithXmlDefinition() throws IOException {
 		LOGGER.info("Loading Stream Definition ...");
 		factory = newStreamFactory("/mappings.xml");
-
 		test("p-oe", "/sample.txt");
 	}
 
